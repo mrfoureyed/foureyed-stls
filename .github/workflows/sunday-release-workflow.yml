@@ -1,0 +1,39 @@
+name: Sunday Zip Release
+
+on:
+  push:
+    tags:
+      - 'rev*' # Trigger when any tag starting with 'v' is pushed
+
+jobs:
+  build:
+    # Only run if the tag was pushed to the 'prod' branch
+    # Note: github.ref is the tag, so we check the 'base_ref' or use a logic check
+    if: github.event.base_ref == 'refs/heads/prod'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Ensure we fetch the full history to verify branch membership
+          fetch-depth: 0 
+
+      - name: Zip Subfolders
+        run: |
+          for dir in */; do
+            dirname=${dir%/}
+            echo "Zipping $dirname..."
+            zip -r "$dirname.zip" "$dir"
+          done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.zip"
+          generate_release_notes: true
+          draft: true
+          prerelease: false
+
