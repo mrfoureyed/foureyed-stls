@@ -5,5 +5,3 @@ Tool hanger that utilizes the belt clip that comes with pretty much all cordless
 To mount the tool holder to the wall we have went with a simple deck or drywall screw approach. Any screw that has a shaft diameter of ≤ 4.5mm and a head diameter ≤ 9mm will suffice.
 
 
-
-
